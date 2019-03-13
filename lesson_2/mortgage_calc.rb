@@ -12,20 +12,42 @@ expected monthly payment
 =end
 
 #Welcome
-puts "Welcome to CJ's mortgage repayment estimator"
-puts " Please enter your name: "
+def prompt(message)
+  puts("=> #{message}")
+end
+
+def valid_number(number)
+
+end
+
+prompt("Welcome to the repayment estimator! Please enter your name: ")
+name = ''
+loop do
+  name = gets.chomp
+  if name.empty?
+  prompt('Please enter a valid name')
+  else
+    break
+  end
+end
+
+prompt("Hi #{name}")
 
 #inputs
-puts "How much do you intend to borrow: "
+prompt("How much do you intend to borrow: ")
 amount = gets.chomp
+#validate input
 
-puts "What is the APR (amount in %): "
+prompt('What is the Annual Percentage Rate (amount in %): ')
 rate = gets.chomp.to_f / 100
+#validate input
 
-puts "What is the duration of the loan in months? "
+prompt'What is the duration of the loan in months? '
 tenor = gets.chomp
+#validate input
 
 #calculation
+prompt('computing your monthly repayment...')
 p = amount.to_i
 j = rate / 12
 n = tenor.to_i
@@ -33,4 +55,6 @@ n = tenor.to_i
 m = p * (j / (1 - (1 + j)**(-n)))
 
 #output
-puts "Your expected monthly repayment on the loan is #{m}"
+prompt("Your expected monthly repayment on the loan is #{m}")
+prompt("Do you want to perform another calculation? (Y to calculate again)")
+prompt("Thanks for using the calculator!")

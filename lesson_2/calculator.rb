@@ -38,25 +38,25 @@ prompt("Hi #{name}")
 loop do # main loop
   number1 = ''
   loop do
-    prompt("What's the first number? ")
+    prompt(MESSAGES['first_number'])
     number1 = Kernel.gets().chomp() # chomp removes the whitespace chars
 
     if valid_number(number1)
       break
     else
-      prompt("Hmm... that does not look like a valid number")
+      prompt(MESSAGES['valid_number_error'])
     end
   end
 
   number2 = ''
   loop do
-    prompt("What's the second number? ")
+    prompt(MESSAGES['second_number'])
     number2 = Kernel.gets().chomp() # chomp removes the whitespace chars
 
     if valid_number(number2)
       break
     else
-      prompt("Hmm... that does not look like a valid number")
+      prompt(MESSAGES['valid_number_error'])
     end
   end
 
@@ -75,7 +75,7 @@ loop do # main loop
     if %w(1 2 3 4).include?(operator)
       break
     else
-      prompt("Must choose 1, 2 ,3 or 4!")
+      prompt(MESSAGES['operator_error'])
     end
   end
 
@@ -94,9 +94,9 @@ loop do # main loop
 
   prompt("The result is #{result}")
 
-  prompt("Do you want to perform another calculation? (Y to calculate again)")
+  prompt(MESSAGES['repeat_calculation'])
   answer = Kernel.gets().chomp()
   break unless answer.downcase().start_with?('y')
 end
 
-prompt("Thanks for using the calculator!")
+prompt(MESSAGES['exit_calculator'])

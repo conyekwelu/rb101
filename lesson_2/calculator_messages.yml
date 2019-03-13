@@ -1,3 +1,9 @@
 
 welcome: "Welcome to Calculator! Enter your name: "
 valid_name: "Make sure to use a valid name"
+first_number: "What's the first number? "
+valid_number_error: "Hmm... that does not look like a valid number"
+second_number: "What's the second number? "
+operator_error: "Must choose 1, 2 ,3 or 4!"
+repeat_calculation: "Do you want to perform another calculation? (Y to calculate again)"
+exit_calculator: "Thanks for using the calculator!"
