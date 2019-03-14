@@ -1,3 +1,11 @@
+=begin
+- Run rubocop
+- make repeat calculation prompt tighter - restrict to y/n
+- create methods to validate amount (valid_number), rate (valid_apr) and tenor
+- make sure no zero amounts, non-negativity
+- create method - display_payment_message, display_invalid_rate
+=end
+
 
 def prompt(message)
   puts("=> #{message}")
