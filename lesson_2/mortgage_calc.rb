@@ -15,6 +15,22 @@ def valid_number(num)
   num.to_f.to_s == num || num.to_i.to_s == num
 end
 
+def valid_amount(amount)
+  valid_number(amount) && amount.to_f > 0
+end
+
+def valid_apr(apr)
+  valid_number(apr) && apr.to_f > 0
+end
+
+def valid_duration(tenor)
+  (valid_number(tenor) && tenor.to_i > 0) && tenor.to_i.to_s == tenor
+end
+
+def display_payment_message
+  prompt("Thanks for using the calculator!")
+end
+
 prompt("Welcome to the Mortgage Calculator! Please enter your name: ")
 name = ''
 loop do
@@ -78,8 +94,19 @@ loop do #Main Loop
   #results
   prompt("Your expected monthly repayment on the loan is #{monthly_repayment}")
   #check for exit
-  prompt("Do you want to perform another calculation? (Y to calculate again)")
-  answer = gets().chomp()
-  break unless answer.downcase() == 'y'
+  exit_prompt = <<-MSG
+  Do you want to perform another calculation?
+  1) Press 'Y' to calculate again
+  2) Press 'N' to exit
+  MSG
+
+  answer = ''
+  loop do
+    prompt(exit_prompt)
+    answer = gets().chomp().downcase()
+    break if ['n', 'y'].include?(answer)
+    prompt('Please enter Y or N')
+  end
+  break if answer == 'n'
 end
-prompt("Thanks for using the calculator!")
+display_payment_message()
