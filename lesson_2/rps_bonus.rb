@@ -2,26 +2,43 @@ WINNING_COMBOS = { rock: ['lizard', 'scissors'], lizard: ['spock', 'paper'],
                    spock: ['scissors', 'rock'], scissors: ['paper', 'lizard'],
                    paper: ['rock', 'spock'] }
 
-VALID_CHOICES = %w(rock paper scissors spock lizard)
+VALID_CHOICES = %w(r p sc sp l)
+
+MAPPING = { r: 'rock', p: 'paper', sc: 'scissors', sp: 'spock', l: 'lizard' }
+
+CHOICE_PROMPT = <<-MSG
+1) enter 'r' to choose Rock
+2) enter 'p' to choose Paper
+3) enter 'sc' to choose Scissors
+4) enter 'sp' to choose Spock
+5) enter 'l' to choose Lizard
+MSG
 
 def prompt(message)
   puts("=> #{message}")
 end
 
+def display_welcome_message
+  prompt('Welcome to the Rock, Paper, Scissors, Spock, Lizard game')
+end
+
+def display_invalid_user_entry
+  prompt("That's not a valid choice")
+end
+
 def retrieve_user_choice
   choice = ''
   loop do
-    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
-    #prompt to enter first letter or two
+    prompt(CHOICE_PROMPT)
     choice = gets().chomp()
 
     if VALID_CHOICES.include?(choice)
       break
     else
-      prompt("That's not a valid choice")
+      display_invalid_user_entry
     end
   end
-  choice
+  MAPPING[choice.to_sym]
 end
 
 def win?(first, second)
@@ -57,15 +74,17 @@ def display_exit_message
   prompt("Thank you for playing. Goodbye!")
 end
 
+display_welcome_message()
+
 user_wins = 0
 computer_wins = 0
 
 loop do
   user_choice = retrieve_user_choice()
 
-  computer_choice = VALID_CHOICES.sample
+  computer_choice = MAPPING[VALID_CHOICES.sample.to_sym]
 
-  prompt("You chose #{user_choice}; Computer chose: #{computer_choice}")
+  prompt("You chose: #{user_choice} ; Computer chose: #{computer_choice}")
 
   display_results(user_choice, computer_choice)
 
