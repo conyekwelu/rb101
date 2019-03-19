@@ -8,14 +8,11 @@ def prompt(message)
   puts("=> #{message}")
 end
 
-def win?(first, second)
-  WINNING_COMBOS[first.to_sym].include?(second)
-end
-
 def retrieve_user_choice
   choice = ''
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
+    #prompt to enter first letter or two
     choice = gets().chomp()
 
     if VALID_CHOICES.include?(choice)
@@ -25,6 +22,10 @@ def retrieve_user_choice
     end
   end
   choice
+end
+
+def win?(first, second)
+  WINNING_COMBOS[first.to_sym].include?(second)
 end
 
 def display_results(player, computer)
@@ -56,6 +57,9 @@ def display_exit_message
   prompt("Thank you for playing. Goodbye!")
 end
 
+user_wins = 0
+computer_wins = 0
+
 loop do
   user_choice = retrieve_user_choice()
 
@@ -65,9 +69,16 @@ loop do
 
   display_results(user_choice, computer_choice)
 
-  answer = retrieve_play_again_response()
+  # update win counter
+  user_wins += 1 if win?(user_choice, computer_choice)
+  computer_wins += 1 if win?(computer_choice, user_choice)
+  break if user_wins == 5 || computer_wins == 5
 
+  # check if user wants to play again
+  answer = retrieve_play_again_response()
   break unless play_again(answer)
 end
 
+prompt("Gameover! You won #{user_wins} times and the Computer won
+       #{computer_wins} times")
 display_exit_message()
