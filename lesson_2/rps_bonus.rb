@@ -6,6 +6,19 @@ VALID_CHOICES = %w(r p sc sp l)
 
 MAPPING = { r: 'rock', p: 'paper', sc: 'scissors', sp: 'spock', l: 'lizard' }
 
+WELCOME_PROMPT = <<-MSG
+Welcome to the Rock, Paper, Scissors, Spock, Lizard game
+
+Here are the rules:
+Scissors cuts paper, paper covers rock, rock crushes lizard,
+lizard poisons Spock, Spock smashes scissors, scissors decapitates lizard,
+lizard eats paper, paper disproves Spock, Spock vaporizes rock,
+and, as it always has, rock crushes scissors.
+
+The first player to win 5 rounds is the ----Grand Winner!!!
+
+MSG
+
 CHOICE_PROMPT = <<-MSG
 1) enter 'r' to choose Rock
 2) enter 'p' to choose Paper
@@ -19,7 +32,7 @@ def prompt(message)
 end
 
 def display_welcome_message
-  prompt('Welcome to the Rock, Paper, Scissors, Spock, Lizard game')
+  prompt(WELCOME_PROMPT)
 end
 
 def display_invalid_user_entry
@@ -30,7 +43,7 @@ def retrieve_user_choice
   choice = ''
   loop do
     prompt(CHOICE_PROMPT)
-    choice = gets().chomp()
+    choice = gets().chomp().downcase()
 
     if VALID_CHOICES.include?(choice)
       break
@@ -45,10 +58,18 @@ def win?(first, second)
   WINNING_COMBOS[first.to_sym].include?(second)
 end
 
+def player_won_round?(player, computer)
+  win?(player, computer)
+end
+
+def computer_won_round?(computer, player)
+  win?(computer, player)
+end
+
 def display_results(player, computer)
-  if win?(player, computer)
+  if player_won_round?()
     prompt("You won!")
-  elsif win?(computer, player)
+  elsif computer_won_round?()
     prompt("Computer won!")
   else
     prompt("It's a tie!")
@@ -89,7 +110,7 @@ loop do
   display_results(user_choice, computer_choice)
 
   # update win counter
-  user_wins += 1 if win?(user_choice, computer_choice)
+  user_wins += 1 if win?(user_choice, computer_choice) # formally 92
   computer_wins += 1 if win?(computer_choice, user_choice)
   break if user_wins == 5 || computer_wins == 5
 
