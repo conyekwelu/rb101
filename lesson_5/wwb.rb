@@ -1,4 +1,17 @@
 # Working with Blocks
+Pro-tip: Never mutate a collection while iterating through it!
+instead create a clone and mutate the array while iterating through the clone
+def remove_evens!(arr)
+  cloned_arr = arr.dup
+  cloned_arr.each do |num|
+    if num % 2 == 0
+      arr.delete(num)
+    end
+  end
+  arr
+end
+
+
 [[1, 2], [3, 4]].each do |arr|
   puts arr.first
 end
@@ -45,3 +58,43 @@ end
   end
 end
 # => [{c: 'cat'}]
+arr = [['1', '8', '11'], ['2', '6', '13'], ['2', '12', '15'], ['1', '8', '9']]
+arr.sort_by do |sub_arr|
+  sub_arr.map do |num|
+    num.to_i
+  end
+end
+
+# Example 8
+[[8, 13, 27], ['apple', 'banana', 'cantaloupe']].map do |arr| #so transformation
+  arr.select do |item|
+    if item.to_s.to_i == item    # if it's an integer
+      item > 13
+    else
+      item.size < 6
+    end
+  end
+end
+#=> [[27], ['apple']]
+# Example 9
+[[[1], [2], [3], [4]], [['a'], ['b'], ['c']]].map do |element1|
+  element1.each do |element2|
+    element2.partition do |element3|
+      element3.size > 0
+    end
+  end
+end
+#=> [[[1], [2], [3], [4]], [['a'], ['b'], ['c']]]
+# Example 10
+[[[1, 2], [3, 4]], [5, 6]].map do |arr|
+  arr.map do |el|
+    if el.to_s.size == 1    # it's an integer
+      el + 1
+    else                    # it's an array
+      el.map do |n|
+        n + 1
+      end
+    end
+  end
+end
+# => [[[2,3], [4,5]], [6, 7]]
