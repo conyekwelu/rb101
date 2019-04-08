@@ -20,7 +20,8 @@ each_with_object() also takes a method argument (array initialization or collect
 end
 
 [1, 2, 3].first # => 1
-first doesn't take a block, but it does take an optional argument which represents the number of elements to return.
+first doesn't take a block, but it does take an optional argument
+which represents the number of elements to return.
 When no argument is given, it returns only the first element in the collection.
 
 { a: "ant", b: "bear", c: "cat" }.first(2)
