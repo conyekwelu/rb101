@@ -138,17 +138,64 @@ end
 # output - a new array
 #          contain only fruit colors and veg sizes
 #          sizes - uppercase : colors capitalized
-hsh = {
-  'grape' => {type: 'fruit', colors: ['red', 'green'], size: 'small'},
+#[["Red", "Green"], "MEDIUM", ["Red", "Green"], ["Orange"], "LARGE"]
+
+hsh = { 'grape' => {type: 'fruit', colors: ['red', 'green'], size: 'small'},
   'carrot' => {type: 'vegetable', colors: ['orange'], size: 'medium'},
   'apple' => {type: 'fruit', colors: ['red', 'green'], size: 'medium'},
   'apricot' => {type: 'fruit', colors: ['orange'], size: 'medium'},
-  'marrow' => {type: 'vegetable', colors: ['green'], size: 'large'},
-}
+  'marrow' => {type: 'vegetable', colors: ['green'], size: 'large'}}
 
-result_arr = []
-hsh.each do |fruit, details|
-  details.each do |key, value|
-    result_arr << 
+result = []
+hsh.each do |fruit, data|
+  if data[:type] == 'fruit'
+    result << data[:colors].map{|x| x.capitalize}
+  elsif data[:type] == 'vegetable'
+    result << data[:size].upcase
   end
+end
+result
+
+# can also do below because map returns an array from a hash
+hsh.map do |_, value|
+  if value[:type] == 'fruit'
+    value[:colors].map do |color|
+      color.capitalize
+    end
+  elsif value[:type] == 'vegetable'
+    value[:size].upcase
+  end
+end
+
+# Question 15
+# input - array of hashes
+# output - a new array of hashes
+#          contain only hashes with all integers even
+
+arr = [{a: [1, 2, 3]},
+       {b: [2, 4, 6], c: [3, 6], d: [4]},
+       {e: [8], f: [6, 10]}]
+
+arr.select do |sub_hash|
+  sub_hash.all? do |_, value|
+    value.all?{|x| x.even?}
+  end
+end
+# HT - call select on any collection that you want a subset of.
+
+# Question 16
+
+def generate_UUID
+  characters = []
+  (0..9).each { |digit| characters << digit.to_s }
+  ('a'..'f').each { |digit| characters << digit }
+
+  uuid = ""
+  sections = [8, 4, 4, 4, 12]
+  sections.each_with_index do |section, index|
+    section.times { uuid += characters.sample }
+    uuid += '-' unless index >= sections.size - 1
+  end
+
+  uuid
 end
