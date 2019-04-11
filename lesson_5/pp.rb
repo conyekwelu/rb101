@@ -93,3 +93,62 @@ origin.map do |hash|
     hash[k] = v + 1
   end
 end
+
+# Question 11
+# input - Given the following data structure and without modifying the original array
+# output - use the select method to return a new array
+#          identical in structure to the original
+#           but with only multiples of 3
+arr = [[2], [3, 5, 7], [9], [11, 13, 15]]
+arr.map do |sub|
+  sub.select {|x| x % 3 == 0}
+end
+
+arr.map do |sub|
+  sub.reject {|x| x % 3 != 0}
+end
+
+# Question 12
+# input - Given the following data structure - array
+# output - wihtout using to_h method return a hash
+#          identical in structure to the original
+#           but with only multiples of 3
+arr = [[:a, 1], ['b', 'two'], ['sea', {c: 3}], [{a: 1, b: 2, c: 3, d: 4}, 'D']]
+arr.each_with_object({}) do |element, hash|
+  hash[element.first] = element.last
+end
+
+hsh = {}
+arr.each do |element|
+  hsh[element[0]] = element[1]
+end
+hsh
+
+# Question 13
+# input - Given the following data structure - array
+# output - a new sorted array
+#          sub array sorting should only consider odd numbers
+arr = [[1, 6, 7], [1, 4, 9], [1, 8, 3]]
+arr.sort_by do |element|
+  element.select{|x| x.odd?}
+end
+
+# Question 14
+# input - Given the following data structure - hash
+# output - a new array
+#          contain only fruit colors and veg sizes
+#          sizes - uppercase : colors capitalized
+hsh = {
+  'grape' => {type: 'fruit', colors: ['red', 'green'], size: 'small'},
+  'carrot' => {type: 'vegetable', colors: ['orange'], size: 'medium'},
+  'apple' => {type: 'fruit', colors: ['red', 'green'], size: 'medium'},
+  'apricot' => {type: 'fruit', colors: ['orange'], size: 'medium'},
+  'marrow' => {type: 'vegetable', colors: ['green'], size: 'large'},
+}
+
+result_arr = []
+hsh.each do |fruit, details|
+  details.each do |key, value|
+    result_arr << 
+  end
+end
