@@ -71,3 +71,25 @@ hsh.each do |key, value|
 end
 p result
 #Differences - combine both lines with 'word', one line if statement, predefined vowels
+
+# Question 9
+#input - Given this data structure,
+#output - return a new array of the same structure
+#         but with the sub arrays being ordered
+#       (alphabetically or numerically as appropriate) in descending order.
+arr = [['b', 'c', 'a'], [2, 1, 3], ['blue', 'black', 'green']]
+arr.map do |sub|
+  sub.sort{ |a,b| b <=> a }
+end
+
+# Question 10
+# input - Given the following data structure and without modifying the original array
+# output - use the map method to return a new array
+#          identical in structure to the original
+#           but where the value of each integer is incremented by 1.
+origin = [{a: 1}, {b: 2, c: 3}, {d: 4, e: 5, f: 6}]
+origin.map do |hash|
+  for k,v in hash do
+    hash[k] = v + 1
+  end
+end
