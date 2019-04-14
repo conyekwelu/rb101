@@ -1,0 +1,19 @@
+First, break down the problem into smaller pieces.
+
+Map out the flow of the program in a flowchart,
+using sub-processes to encapsulate well-defined components of the problem.
+
+When you're ready to tackle a component or sub-process,
+    write out the pseudo-code for that sub-process only.
+    come up with clear inputs for the sub-process,
+                clear outputs you expect
+
+Play around with the code.
+Write every line of code and make sure you understand it
+
+Do the assignments in sequence.
+We'll walk you through the necessary steps to break down the problem.
+
+Don't be afraid to watch the walk-through videos.
+Use those as guard rails so you're not spinning your wheels stuck for too long.
+But don't just sit back and watch the videos without typing or coding along.
