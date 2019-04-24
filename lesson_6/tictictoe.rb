@@ -34,6 +34,10 @@ def initialize_board
   new_board
 end
 
+def joinor(array, delimiter = ', ', separator = "or")
+  "#{array[0..-2].join(delimiter)} #{separator} #{array.slice(-1)}"
+end
+
 def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
@@ -41,7 +45,7 @@ end
 def player_places_piece!(brd)
   square = ''
   loop do
-    prompt "Choose a square (#{empty_squares(brd).join(', ')}):"
+    prompt "Choose a square (#{joinor(empty_squares(brd))}):"
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
     prompt "Sorry, that's not a valid choice"
@@ -50,8 +54,31 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
+def find_square_at_risk(brd, player)
+  squares_at_risk = []
+  WINNING_LINES.each do |line|
+    if brd.values_at(line[0], line[1], line[2]).count(player) == 2
+      line.each do |x|
+        squares_at_risk << x if brd[x] == INITIAL_MARKER
+      end
+    end
+  end
+  squares_at_risk
+end
+
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
+  square = []
+  offense = find_square_at_risk(brd, COMPUTER_MARKER)
+  defense = find_square_at_risk(brd, PLAYER_MARKER)
+
+  if offense.empty? == false
+    square = offense.sample
+  elsif defense.empty? == false
+    square = defense.sample
+  else
+    square = empty_squares(brd).sample
+  end
+
   brd[square] = COMPUTER_MARKER
 end
 
@@ -83,26 +110,55 @@ def someone_won?(brd)
   !!detect_winner(brd) # forcibly turns the return value into boolean
 end
 
+def player_won?(brd)
+  detect_winner(brd) == "Player"
+end
+
+def computer_won?(brd)
+  detect_winner(brd) == "Computer"
+end
+
+# if someone_won?(board)
+#   prompt "#{detect_winner(board)} won!"
+# else
+#   prompt "It's a tie!"
+# end
+
 loop do
-  board = initialize_board # board holds the state of the game hence rqd
+  player_count = 0
+  computer_count = 0
 
   loop do
+    board = initialize_board # board holds the state of the game hence rqd
+
+    loop do
+      display_board(board)
+
+      player_places_piece!(board) # have to mutate board
+      break if someone_won?(board) || board_full?(board)
+
+      computer_places_piece!(board) # have to mutate board
+      break if someone_won?(board) || board_full?(board)
+    end
+
     display_board(board)
 
-    player_places_piece!(board) # have to mutate board
-    break if someone_won?(board) || board_full?(board)
+    if player_won?(board)
+      prompt "Player won!"
+      player_count += 1
+    elsif computer_won?(board)
+      prompt "Computer won!"
+      computer_count += 1
+    else
+      prompt "It's a tie!"
+    end
 
-    computer_places_piece!(board) # have to mutate board
-    break if someone_won?(board) || board_full?(board)
+    break if player_count == 5 || computer_count == 5
   end
 
-  display_board(board)
+  grand_winner = (player_count > computer_count ? 'Player' : 'Computer')
 
-  if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
-  else
-    prompt "It's a tie!"
-  end
+  prompt "With 5 wins, The Grand Winner is #{grand_winner}!"
 
   prompt "Play again? (y or n)"
   answer = gets.chomp
