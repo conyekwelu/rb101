@@ -2,12 +2,26 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # ROWS
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # COLS
                 [[1, 5, 9], [3, 5, 7]]              # DIAGONALS
 
+FIRST_MOVER_OPTIONS = ["player", "computer", "choose"]
+
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
 
 def prompt(msg)
   puts "=> #{msg}"
+end
+
+def first_to_move(array)
+  option = array.sample
+  case option
+  when "player"
+    xxxx
+  when "computer"
+    xxxx
+  else
+    xxxx
+  end
 end
 
 def display_board(board)
@@ -75,6 +89,8 @@ def computer_places_piece!(brd)
     square = offense.sample
   elsif defense.empty? == false
     square = defense.sample
+  elsif brd[5] == ' '
+    square = 5
   else
     square = empty_squares(brd).sample
   end
@@ -133,6 +149,8 @@ loop do
 
     loop do
       display_board(board)
+
+      first_to_move(FIRST_MOVER_OPTIONS)
 
       player_places_piece!(board) # have to mutate board
       break if someone_won?(board) || board_full?(board)
