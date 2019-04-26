@@ -11,7 +11,7 @@ COMPUTER_MARKER = 'O'
 def prompt(msg)
   puts "=> #{msg}"
 end
-
+=begin
 def first_to_move(array)
   option = array.sample
   case option
@@ -23,6 +23,7 @@ def first_to_move(array)
     xxxx
   end
 end
+=end
 
 def display_board(board)
   system('cls')
@@ -150,7 +151,7 @@ loop do
     loop do
       display_board(board)
 
-      first_to_move(FIRST_MOVER_OPTIONS)
+      #first_to_move(FIRST_MOVER_OPTIONS)
 
       player_places_piece!(board) # have to mutate board
       break if someone_won?(board) || board_full?(board)
