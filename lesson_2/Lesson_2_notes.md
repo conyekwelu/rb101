@@ -82,3 +82,14 @@ END
 In your command prompt enter (you should have installed the gem):
 
 `rubocop filename.rb`
+
+## Method Definition
+
+local variables that are not initialized *inside* a method definition must be defined as parameters
+
+CONSTANT variables have lexical scope - they are everywhere
+
+
+
+
+
