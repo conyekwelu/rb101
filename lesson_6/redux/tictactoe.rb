@@ -12,6 +12,7 @@
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
+FIRST_MOVER = "Player"
 
 WINNING_LINES =  [[1, 2, 3], [4, 5, 6], [7, 8, 9], # rows
                   [1, 4, 7], [2, 5, 8], [3, 6, 9], # cols
@@ -67,10 +68,10 @@ def player_places_piece!(brd)
 end
 
 def computer_places_piece!(brd)
-  if immediate_opportunity(brd)
-    square = opportunity_square(brd).sample
-  elsif immediate_threat(brd)
-    square = at_risk_square(brd).sample
+  if immediate_opportunity?(brd)
+    square = key_square(brd, COMPUTER_MARKER).sample
+  elsif immediate_threat?(brd)
+    square = key_square(brd, PLAYER_MARKER).sample
   elsif brd[5] == INITIAL_MARKER
     square = 5
   else
@@ -144,6 +145,8 @@ def joinor(array, delim = ', ', conjug = "or")
   result = ''
 
   result =  case array.size
+            when 0
+              ""
             when 1
               "#{array[0].to_s}"
             when 2
@@ -156,46 +159,41 @@ end
 
 # consolidate immediate_threat, immediate_opportunity
 # consolidate at risk square, opportunity_square
-def immediate_threat(brd)
-  WINNING_LINES.each do |line|
-    if brd.values_at(*line).count(PLAYER_MARKER) == 2
-      return true
-    end
+def immediate_threat?(brd)
+  WINNING_LINES.any? do |line|
+    brd.values_at(*line).count(PLAYER_MARKER) == 2
   end
-  false
 end
 
-def at_risk_square(brd)
-  at_risk_square = []
+def immediate_opportunity?(brd)
+  WINNING_LINES.any? do |line|
+    brd.values_at(*line).count(COMPUTER_MARKER) == 2
+  end
+end
+
+def key_square(brd, marker)
+  key_square = []
   WINNING_LINES.each do |line|
-    if brd.values_at(*line).count(PLAYER_MARKER) == 2
+    if brd.values_at(*line).count(marker) == 2
       line.each do |index|
-        at_risk_square << index if brd[index] == INITIAL_MARKER
+        key_square << index if brd[index] == INITIAL_MARKER
       end
     end
   end
-  at_risk_square
+  key_square
 end
 
-def immediate_opportunity(brd)
-  WINNING_LINES.each do |line|
-    if brd.values_at(*line).count(COMPUTER_MARKER) == 2
-      return true
-    end
-  end
-  false
+def alternate_player(current_player)
+  return "Player"if current_player == "Computer"
+  "Computer"
 end
 
-def opportunity_square(brd)
-  opportunity_square = []
-  WINNING_LINES.each do |line|
-    if brd.values_at(*line).count(COMPUTER_MARKER) == 2
-      line.each do |index|
-        opportunity_square << index if brd[index] == INITIAL_MARKER
-      end
-    end
+def place_piece!(board, current_player)
+  if current_player == "Player"
+    player_places_piece!(board)
+  else
+    computer_places_piece!(board)
   end
-  opportunity_square
 end
 
 score_total = {}
@@ -203,14 +201,12 @@ score_total = {}
 loop do
   board = initialize_board
   display_board(board)
+  current_player = FIRST_MOVER
 
   loop do
     display_board(board)
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
-
-    computer_places_piece!(board)
-    display_board(board)
+    place_piece!(board, current_player)
+    current_player = alternate_player(current_player)
     break if someone_won?(board) || board_full?(board)
     # binding.pry
   end
