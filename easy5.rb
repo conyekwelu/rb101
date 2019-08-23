@@ -14,14 +14,14 @@
 #           - replace 1st and last char for word in string with first and last char of word in collection
 #           - return string
 
-# def swap(sentence)
-#   bag_of_words = sentence.split
-#   sentence.split.each_with_index do |word, index|
-#     bag_of_words[index][0] = word.reverse[0]
-#     bag_of_words[index][-1] = word.reverse[-1]
-#   end
-#   bag_of_words.join(' ')
-# end
+def swap(sentence)
+  bag_of_words = sentence.split
+  sentence.split.each_with_index do |word, index|
+    bag_of_words[index][0] = word.reverse[0]
+    bag_of_words[index][-1] = word.reverse[-1]
+  end
+  bag_of_words.join(' ')
+end
 #
 # def swap_first_last_characters(word)
 #   word[0], word[-1] = word[-1], word[0]
