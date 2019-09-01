@@ -1,4 +1,4 @@
-require 'pry'
+# require 'pry'
 # 1. Initialize deck
 # 2. Deal cards to player and dealer
 # update deck
@@ -40,7 +40,7 @@ def update_total(plyr_hand)
   sum
 end
 
-def update_deck_draw(array, draw)
+def update_deck(array, draw)
   array.select! { |e| !draw.include?(e) }
 end
 
@@ -125,23 +125,25 @@ end
 # Game Play
 
 puts "Welcome to the game of 21!"
+sleep WAIT_TIME
+# intialize counters
+player_score = 0
+dealer_score = 0
+
 loop do
-  player_score = 0
-  dealer_score = 0
+  deck = initialize_deck
+  system 'cls'
 
   loop do
-    deck = initialize_deck
-    system ("cls")
-
     puts "...issuing two cards to player"
     sleep WAIT_TIME
     player_hand = deck.sample(2)
-    update_deck_draw(deck, player_hand)
+    update_deck(deck, player_hand)
 
     puts "...issuing two cards to dealer"
     sleep WAIT_TIME
     dealer_hand = deck.sample(2)
-    update_deck_draw(deck, dealer_hand)
+    update_deck(deck, dealer_hand)
 
     player_total = update_total(player_hand)
     dealer_total = update_total(dealer_hand)
@@ -156,7 +158,7 @@ loop do
         player_hand += [deck.sample]
         puts 'You chose to hit'
         puts "Your cards are now #{player_hand}"
-        update_deck_draw(deck, player_hand)
+        update_deck(deck, player_hand)
         player_total = update_total(player_hand)
       end
 
@@ -179,7 +181,7 @@ loop do
       puts 'Dealer hits!'
       dealer_hand += [deck.sample]
       puts "Dealer's cards are now #{dealer_hand}"
-      update_deck_draw(deck, dealer_hand)
+      update_deck(deck, dealer_hand)
       dealer_total = update_total(dealer_hand)
 
       break if busted?(dealer_total)
@@ -187,7 +189,6 @@ loop do
 
     if busted?(dealer_total)
       player_score += 1
-      puts "Dealer total is now: #{dealer_total}"
       display_winner(player_total, dealer_total)
       break
     else
@@ -212,7 +213,7 @@ loop do
 
     break
   end
-  binding.pry
+  break if grand_winner?(player_score, dealer_score)
   break unless play_again?
 end
 
