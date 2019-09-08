@@ -33,6 +33,10 @@ def sequence(count, num)
   num.step(by: num).take(count)
 end
 
+def sequence(count, first)
+  (1..count).map { |value| value * first }
+end
+
 # Examples:
 
 p sequence(5, 1) == [1, 2, 3, 4, 5]
